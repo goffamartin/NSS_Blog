@@ -1,4 +1,5 @@
 using Blog.ApiService.Data;
+using Blog.ApiService.Seeds;
 using Blog.ApiService.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,21 +40,14 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-string[] summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
-
-app.MapGet("/weatherforecast", () =>
+app.MapPost("/seed", async (BlogDbContext db, IWebHostEnvironment env) =>
 {
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    if (!env.IsDevelopment())
+        return Results.Forbid();
+
+    await SeedData.InitializeAsync(db);
+    return Results.Ok("Seeding complete");
+});
 
 app.MapDefaultEndpoints();
 

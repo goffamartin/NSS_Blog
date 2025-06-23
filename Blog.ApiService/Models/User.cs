@@ -17,7 +17,7 @@ namespace Blog.ApiService.Models
         [MaxLength(255)]
         public string IdentityProviderExternalId { get; set; }
 
-        public List<UserRole> UserRoles { get; } = new List<UserRole>();
+        public List<UserRole> UserRoles { get; set; } = [];
         public ICollection<Article> Articles { get; set; } = [];
         public ICollection<Comment> Comments { get; set; } = [];
         public ICollection<Like> Likes { get; set; } = [];
