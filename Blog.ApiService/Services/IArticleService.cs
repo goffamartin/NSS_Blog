@@ -9,5 +9,8 @@ namespace Blog.ApiService.Services
         Task<ArticleDto> CreateAsync(ArticleDto dto);
         Task<bool> UpdateAsync(int id, ArticleDto dto);
         Task<bool> SoftDeleteAsync(int id);
+        Task<IEnumerable<ArticleDto>> GetByAuthorAsync(int authorId);
+        Task<IEnumerable<ArticleDto>> SearchAsync(string searchTerm);
+        Task<int> SoftDeleteByAuthorAsync(int authorId);
     }
 }

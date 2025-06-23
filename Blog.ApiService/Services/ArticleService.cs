@@ -68,4 +68,36 @@ public class ArticleService : IArticleService
         await _db.SaveChangesAsync();
         return true;
     }
+
+    public async Task<IEnumerable<ArticleDto>> GetByAuthorAsync(int authorId)
+    {
+        var articles = await _db.Articles
+            .Where(a => a.AuthorId == authorId && a.Deleted == null)
+            .ToListAsync();
+
+        return _mapper.Map<IEnumerable<ArticleDto>>(articles);
+    }
+
+    public async Task<IEnumerable<ArticleDto>> SearchAsync(string searchTerm)
+    {
+        var articles = await _db.Articles
+            .Where(a => (a.Title.Contains(searchTerm) || a.Content.Contains(searchTerm)) && a.Deleted == null)
+            .ToListAsync();
+
+        return _mapper.Map<IEnumerable<ArticleDto>>(articles);
+    }
+
+    public async Task<int> SoftDeleteByAuthorAsync(int authorId)
+    {
+        var articles = await _db.Articles
+            .Where(a => a.AuthorId == authorId && a.Deleted == null)
+            .ToListAsync();
+
+        foreach (var a in articles)
+            a.Deleted = DateTime.UtcNow;
+
+        await _db.SaveChangesAsync();
+        return articles.Count;
+    }
+
 }
