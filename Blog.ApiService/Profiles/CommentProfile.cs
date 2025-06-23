@@ -1,0 +1,14 @@
+﻿using AutoMapper;
+using Blog.ApiService.Dtos;
+using Blog.ApiService.Models;
+
+namespace Blog.ApiService.Profiles
+{
+    public class CommentProfile : Profile
+    {
+        public CommentProfile()
+        {
+            CreateMap<Comment, CommentDto>().ReverseMap();
+        }
+    }
+}
