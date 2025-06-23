@@ -1,4 +1,5 @@
 using Blog.ApiService.Data;
+using Blog.ApiService.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,10 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<BlogDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+builder.Services.AddScoped<IArticleService, ArticleService>();
 
 var app = builder.Build();
 
