@@ -26,6 +26,8 @@ builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ILikeService, LikeService>();
 
+builder.Services.AddScoped<IRabbitPublisher, RabbitPublisher>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

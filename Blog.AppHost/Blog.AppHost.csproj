@@ -14,12 +14,14 @@
   <ItemGroup>
     <ProjectReference Include="..\Blog.ApiService\Blog.ApiService.csproj" />
     <ProjectReference Include="..\Blog.ElasticService\Blog.ElasticService.csproj" />
+    <ProjectReference Include="..\Blog.ElasticWorker\Blog.ElasticWorker.csproj" />
     <ProjectReference Include="..\Blog.Web\Blog.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.1" />
     <PackageReference Include="Aspire.Hosting.Redis" Version="9.3.1" />
+    <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="9.3.1" />
     <PackageReference Include="Elastic.Aspire.Hosting.Elasticsearch" Version="9.3.0" />
   </ItemGroup>
 

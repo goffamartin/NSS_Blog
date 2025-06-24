@@ -14,6 +14,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Tests", "Blog.Tests\Bl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.ElasticService", "Blog.ElasticService\Blog.ElasticService.csproj", "{3ADD925A-D295-F5F4-3E59-D5373A54274F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.ElasticWorker", "Blog.ElasticWorker\Blog.ElasticWorker.csproj", "{18E1C29C-F3E0-010B-CD9C-AB878E82B69F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{8D80A219-1F84-4DE9-B1BF-EF036EE92440}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +48,14 @@ Global
 		{3ADD925A-D295-F5F4-3E59-D5373A54274F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3ADD925A-D295-F5F4-3E59-D5373A54274F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3ADD925A-D295-F5F4-3E59-D5373A54274F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18E1C29C-F3E0-010B-CD9C-AB878E82B69F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18E1C29C-F3E0-010B-CD9C-AB878E82B69F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18E1C29C-F3E0-010B-CD9C-AB878E82B69F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18E1C29C-F3E0-010B-CD9C-AB878E82B69F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D80A219-1F84-4DE9-B1BF-EF036EE92440}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D80A219-1F84-4DE9-B1BF-EF036EE92440}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D80A219-1F84-4DE9-B1BF-EF036EE92440}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D80A219-1F84-4DE9-B1BF-EF036EE92440}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
