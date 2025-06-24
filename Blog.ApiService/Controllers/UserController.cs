@@ -1,4 +1,4 @@
-﻿using Blog.ApiService.Dtos;
+﻿using Blog.Shared.Dtos;
 using Blog.ApiService.Services;
 using Microsoft.AspNetCore.Mvc;
 

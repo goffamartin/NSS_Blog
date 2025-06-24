@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using Blog.ApiService.Dtos;
 using Blog.ApiService.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using Blog.Shared.Dtos;
 
 namespace Blog.ApiService.Profiles;
 

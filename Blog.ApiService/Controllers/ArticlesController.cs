@@ -1,5 +1,5 @@
-﻿using Blog.ApiService.Dtos;
-using Blog.ApiService.Services;
+﻿using Blog.ApiService.Services;
+using Blog.Shared.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.ApiService.Controllers;
