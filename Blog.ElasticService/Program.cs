@@ -1,6 +1,5 @@
 ﻿using Elastic.Clients.Elasticsearch;
-using Blog.ElasticService.Dtos;
-using Elastic.Clients.Elasticsearch.QueryDsl;
+using Blog.Shared.Dtos;
 
 var builder = WebApplication.CreateBuilder(args);
 

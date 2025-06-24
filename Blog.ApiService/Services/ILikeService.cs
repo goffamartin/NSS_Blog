@@ -1,4 +1,4 @@
-﻿using Blog.ApiService.Dtos;
+﻿using Blog.Shared.Dtos;
 
 namespace Blog.ApiService.Services
 {
