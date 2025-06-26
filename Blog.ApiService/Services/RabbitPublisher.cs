@@ -2,26 +2,25 @@
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Channels;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Blog.ApiService.Services
 {
     public class RabbitPublisher : IRabbitPublisher
     {
-        private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<RabbitPublisher> _logger;
-        private readonly IConnection _messageConnection;
-        private readonly IModel _messageChannel;
+        private readonly IConnection _connection;
+        private readonly IModel _channel;
 
-        public RabbitPublisher(IServiceProvider serviceProvider, ILogger<RabbitPublisher> logger)
+        public RabbitPublisher(IConnection connection, ILogger<RabbitPublisher> logger)
         {
-            _serviceProvider = serviceProvider;
 
-            _messageConnection = _serviceProvider.GetRequiredService<IConnection>();
-
-            _messageChannel = _messageConnection.CreateModel();
+            _connection = connection;
+            _channel = _connection.CreateModel();
             _logger = logger;
 
-            _messageChannel.QueueDeclare("articles", durable: true, exclusive: false, autoDelete: false);
+            _channel.QueueDeclare("articles", durable: true, exclusive: false, autoDelete: false);
         }
 
         public Task PublishArticleEventAsync(string type, ArticleSearchDto article)
@@ -35,7 +34,7 @@ namespace Blog.ApiService.Services
             var json = JsonSerializer.Serialize(payload);
             var bytes = Encoding.UTF8.GetBytes(json);
 
-            _messageChannel.BasicPublish(exchange: "",
+            _channel.BasicPublish(exchange: "",
                                   routingKey: "articles",
                                   basicProperties: null,
                                   body: bytes);
