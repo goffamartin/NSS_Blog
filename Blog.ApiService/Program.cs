@@ -1,11 +1,10 @@
 using Blog.ApiService.Authentication.Data;
+using Blog.ApiService.Cache;
 using Blog.ApiService.Data;
 using Blog.ApiService.Middleware;
 using Blog.ApiService.Seeds;
 using Blog.ApiService.Services;
 using Blog.AuthService.Model;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -17,6 +16,9 @@ builder.AddServiceDefaults();
 
 // Add services to the container.
 builder.Services.AddProblemDetails();
+
+builder.AddRedisClient("cache");
+builder.AddRedisDistributedCache("cache");
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -48,12 +50,24 @@ builder.Services.AddAuthentication()
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddScoped<ICacheService, RedisCacheService>();
+
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ILikeService, LikeService>();
+
+builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.Decorate<IArticleService, CachedArticleService>();
+
+builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.Decorate<ITagService, CachedTagService>();
+
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.Decorate<ICategoryService, CachedCategoryService>();
+
+builder.Services.AddScoped<ICacheService, RedisCacheService>();
 
 builder.Services.AddScoped<IRabbitPublisher, RabbitPublisher>();
 
