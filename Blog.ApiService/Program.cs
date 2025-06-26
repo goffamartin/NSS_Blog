@@ -1,7 +1,14 @@
+using Blog.ApiService.Authentication.Data;
 using Blog.ApiService.Data;
+using Blog.ApiService.Middleware;
 using Blog.ApiService.Seeds;
 using Blog.ApiService.Services;
+using Blog.AuthService.Model;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,10 +25,28 @@ builder.Services.AddOpenApi();
 
 builder.AddRabbitMQClient("rabbitmq");
 
-builder.AddSqlServerClient("BlogDb");
-builder.Services.AddDbContext<BlogDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("BlogDb"))
+builder.AddSqlServerClient("IdentityDb");
+builder.Services.AddDbContext<IdentityDbContext>(opts =>
+  opts.UseSqlServer(builder.Configuration.GetConnectionString("IdentityDb"), x =>
+    x.MigrationsHistoryTable("__EFMigrationsHistory_Identity"))
 );
+
+builder.AddSqlServerClient("BlogDb");
+builder.Services.AddDbContext<BlogDbContext>(opts =>
+  opts.UseSqlServer(builder.Configuration.GetConnectionString("BlogDb"), x =>
+    x.MigrationsHistoryTable("__EFMigrationsHistory_Blog"))
+);
+
+
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<IdentityDbContext>()
+    .AddApiEndpoints();
+
+builder.Services.AddAuthentication()
+    .AddCookie()
+    .AddBearerToken(IdentityConstants.BearerScheme);
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
@@ -33,6 +58,9 @@ builder.Services.AddScoped<ILikeService, LikeService>();
 builder.Services.AddScoped<IRabbitPublisher, RabbitPublisher>();
 
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
@@ -51,9 +79,18 @@ app.MapPost("/seed", async (BlogDbContext db, IWebHostEnvironment env) =>
     if (!env.IsDevelopment())
         return Results.Forbid();
 
-    await SeedData.InitializeAsync(db);
+    await IdentitySeeder.InitializeAsync(app.Services);
+    await DataSeeder.InitializeAsync(db);
     return Results.Ok("Seeding complete");
 });
+
+app.MapGet("users/me", async (ClaimsPrincipal claims, IdentityDbContext context) =>
+{
+    string userId = claims.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+    return await context.Users.FindAsync(userId);
+})
+.RequireAuthorization();
 
 app.MapDefaultEndpoints();
 
@@ -62,16 +99,13 @@ app.MapControllers();
 // Apply migrations at startup
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<BlogDbContext>();
-    db.Database.Migrate();
+    scope.ServiceProvider.GetRequiredService<BlogDbContext>().Database.Migrate();
+    scope.ServiceProvider.GetRequiredService<IdentityDbContext>().Database.Migrate();
 }
 
 // Interceptor/Middleware for logging requests
 app.UseMiddleware<RequestLoggingMiddleware>();
 
-app.Run();
+app.MapIdentityApi<User>();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+app.Run();

@@ -6,6 +6,8 @@ var sqlServer = builder.AddSqlServer("sql")
 
 var database = sqlServer.AddDatabase("BlogDb");
 
+var identityDb = sqlServer.AddDatabase("IdentityDb");
+
 var cache = builder.AddRedis("cache");
 
 var rabbitmq = builder.AddRabbitMQ("rabbitmq")
@@ -26,6 +28,8 @@ var elasticservice = builder.AddProject<Projects.Blog_ElasticService>("elasticse
 var apiService = builder.AddProject<Projects.Blog_ApiService>("apiservice")
     .WithReference(rabbitmq)
     .WithReference(database)
+    .WithReference(identityDb)
+    .WaitFor(identityDb)
     .WaitFor(database);
 
 builder.AddProject<Projects.Blog_Web>("webfrontend")
@@ -45,6 +49,8 @@ builder.AddProject<Projects.Blog_ElasticWorker>("elasticworker")
     .WaitFor(elasticsearch)
     .WaitFor(rabbitmq)
     .WaitFor(database);
+
+
 
 
 builder.Build().Run();

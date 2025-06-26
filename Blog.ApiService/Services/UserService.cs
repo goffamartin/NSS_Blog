@@ -17,6 +17,21 @@ namespace Blog.ApiService.Services
             return _mapper.Map<IEnumerable<UserDto>>(users);
         }
 
+        public async Task<UserDto?> GetByExternalIdAsync(string externalId)
+        {
+            return await _db.Users
+                .Where(u => u.IdentityProviderExternalId == externalId && u.Deleted == null)
+                .Select(u => new UserDto
+                {
+                    Id = u.Id,
+                    Email = u.Email,
+                    Username = u.Username,
+                    IdentityProviderExternalId = u.IdentityProviderExternalId,
+                    Created = u.Created
+                })
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<UserDto?> GetByIdAsync(int id)
         {
             var user = await _db.Users.FindAsync(id);
