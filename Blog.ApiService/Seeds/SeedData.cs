@@ -39,6 +39,7 @@ namespace Blog.ApiService.Seeds
             {
                 Username = "Alice Admin",
                 Email = "admin@example.com",
+                IdentityProviderExternalId = "12345",
                 Created = DateTime.UtcNow,
                 UserRoles = [new() { Role = adminRole }]
             };
@@ -47,6 +48,7 @@ namespace Blog.ApiService.Seeds
             {
                 Username = "Bob Author",
                 Email = "author@example.com",
+                IdentityProviderExternalId = "23456",
                 Created = DateTime.UtcNow,
                 UserRoles = [new() { Role = authorRole }]
             };
@@ -55,6 +57,7 @@ namespace Blog.ApiService.Seeds
             {
                 Username = "Charlie User",
                 Email = "user@example.com",
+                IdentityProviderExternalId = "34567",
                 Created = DateTime.UtcNow,
                 UserRoles = [new() { Role = userRole }]
             };

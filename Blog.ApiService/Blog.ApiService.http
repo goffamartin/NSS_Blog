@@ -1,0 +1,88 @@
+@Blog.ApiService_HostAddress = http://localhost:7366
+
+### 1. Seed the database
+POST {{Blog.ApiService_HostAddress}}/seed
+Content-Type: application/json
+
+### 2. Get all articles
+GET {{Blog.ApiService_HostAddress}}/api/Articles
+Accept: application/json
+
+### 3. Get article by id
+GET {{Blog.ApiService_HostAddress}}/api/Articles/1
+Accept: application/json
+
+### 4. Create an article
+POST {{Blog.ApiService_HostAddress}}/api/Articles
+Content-Type: application/json
+
+{
+  "title": "New Article from HTTP file",
+  "content": "This is the content of the new article.",
+  "authorId": 2,
+  "categoryId": 1
+}
+
+### 5. Update an article
+PUT {{Blog.ApiService_HostAddress}}/api/Articles/1
+Content-Type: application/json
+
+{
+  "title": "Updated Article Title",
+  "content": "This is the updated content.",
+  "authorId": 2,
+  "categoryId": 1
+}
+
+### 6. Delete an article
+DELETE {{Blog.ApiService_HostAddress}}/api/Articles/2
+
+### 7. Get all comments for an article
+GET {{Blog.ApiService_HostAddress}}/api/Comments?articleId=1
+Accept: application/json
+
+### 8. Create a comment
+POST {{Blog.ApiService_HostAddress}}/api/Comments
+Content-Type: application/json
+
+{
+  "content": "This is a new comment from the HTTP file.",
+  "authorId": 3,
+  "articleId": 1
+}
+
+### 9. Delete a comment
+DELETE {{Blog.ApiService_HostAddress}}/api/Comments/1
+
+### 10. Like an article
+POST {{Blog.ApiService_HostAddress}}/api/Likes
+Content-Type: application/json
+
+{
+  "articleId": 1,
+  "userId": 3
+}
+
+### 11. Get like count for an article
+GET {{Blog.ApiService_HostAddress}}/api/Likes/1
+Accept: application/json
+
+### 12. Get all users
+GET {{Blog.ApiService_HostAddress}}/api/Users
+Accept: application/json
+
+### 13. Get user by id
+GET {{Blog.ApiService_HostAddress}}/api/Users/1
+Accept: application/json
+
+### 14. Create a user
+POST {{Blog.ApiService_HostAddress}}/api/Users
+Content-Type: application/json
+
+{
+  "displayName": "New User from HTTP",
+  "email": "new.user@example.com"
+}
+
+### 15. Delete a user
+DELETE {{Blog.ApiService_HostAddress}}/api/Users/2

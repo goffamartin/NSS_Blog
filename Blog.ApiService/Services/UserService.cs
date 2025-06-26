@@ -6,17 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Blog.ApiService.Services
 {
-    public class UserService : IUserService
+    public class UserService(BlogDbContext _db, IMapper _mapper) : IUserService
     {
-        private readonly BlogDbContext _db;
-        private readonly IMapper _mapper;
-
-        public UserService(BlogDbContext db, IMapper mapper)
-        {
-            _db = db;
-            _mapper = mapper;
-        }
-
         public async Task<IEnumerable<UserDto>> GetAllAsync()
         {
             var users = await _db.Users
