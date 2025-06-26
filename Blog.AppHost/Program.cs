@@ -1,11 +1,10 @@
-using Projects;
-
 var builder = DistributedApplication.CreateBuilder(args);
 
-var cache = builder.AddRedis("cache");
+var sqlServer = builder.AddSqlServer("sql")
+                       .WithLifetime(ContainerLifetime.Persistent)    // Keep between runs
+                       .WithDataVolume();
 
-var username = builder.AddParameter("username", secret: true);
-var password = builder.AddParameter("password", secret: true);
+var database = sqlServer.AddDatabase("BlogDb");
 
 var cache = builder.AddRedis("cache");
 
@@ -19,11 +18,15 @@ var elasticsearch = builder.AddElasticsearch("elasticsearch")
 
 var elasticservice = builder.AddProject<Projects.Blog_ElasticService>("elasticservice")
     .WithReference(elasticsearch)
+    .WithReference(database)
     .WaitFor(elasticsearch)
+    .WaitFor(database)
     .WithExternalHttpEndpoints();
 
 var apiService = builder.AddProject<Projects.Blog_ApiService>("apiservice")
     .WithReference(rabbitmq)
+    .WithReference(database)
+    .WaitFor(database);
 
 builder.AddProject<Projects.Blog_Web>("webfrontend")
     .WithExternalHttpEndpoints()
@@ -33,7 +36,6 @@ builder.AddProject<Projects.Blog_Web>("webfrontend")
     .WaitFor(elasticservice)
     .WaitFor(apiService)
     .WaitFor(cache);
-    .WaitFor(elasticservice);
 
 
 builder.AddProject<Projects.Blog_ElasticWorker>("elasticworker")

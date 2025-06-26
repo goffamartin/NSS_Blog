@@ -16,8 +16,12 @@ builder.Services.AddEndpointsApiExplorer();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+builder.AddRabbitMQClient("rabbitmq");
+
+builder.AddSqlServerClient("BlogDb");
 builder.Services.AddDbContext<BlogDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BlogDb"))
+);
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
@@ -52,6 +56,15 @@ app.MapPost("/seed", async (BlogDbContext db, IWebHostEnvironment env) =>
 });
 
 app.MapDefaultEndpoints();
+
+app.MapControllers();
+
+// Apply migrations at startup
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<BlogDbContext>();
+    db.Database.Migrate();
+}
 
 app.Run();
 

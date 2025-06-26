@@ -33,6 +33,7 @@ public class ArticleService(
     public async Task<ArticleDto> CreateAsync(ArticleDto dto)
     {
         var article = _mapper.Map<Article>(dto);
+        article.Id = default;
         article.Created = DateTime.UtcNow;
         _db.Articles.Add(article);
         await _db.SaveChangesAsync();
