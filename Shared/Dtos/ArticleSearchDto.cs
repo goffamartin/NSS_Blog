@@ -1,4 +1,4 @@
-﻿namespace Blog.ElasticService.Dtos
+﻿namespace Blog.Shared.Dtos
 {
     public class ArticleSearchDto
     {

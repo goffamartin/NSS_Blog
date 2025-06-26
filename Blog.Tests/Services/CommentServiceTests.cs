@@ -1,13 +1,8 @@
 ﻿using AutoMapper;
 using Blog.ApiService.Data;
-using Blog.ApiService.Dtos;
 using Blog.ApiService.Profiles;
 using Blog.ApiService.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Blog.Shared.Dtos;
 
 namespace Blog.Tests.Services
 {

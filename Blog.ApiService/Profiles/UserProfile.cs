@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Blog.ApiService.Dtos;
+using Blog.Shared.Dtos;
 using Blog.ApiService.Models;
 
 namespace Blog.ApiService.Profiles

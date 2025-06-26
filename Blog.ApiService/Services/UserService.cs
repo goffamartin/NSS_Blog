@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Blog.ApiService.Data;
-using Blog.ApiService.Dtos;
+using Blog.Shared.Dtos;
 using Blog.ApiService.Models;
 using Microsoft.EntityFrameworkCore;
 

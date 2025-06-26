@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Blog.ApiService.Data;
-using Blog.ApiService.Dtos;
+using Blog.Shared.Dtos;
 using Blog.ApiService.Profiles;
 using Blog.ApiService.Services;
 using System;
@@ -15,6 +15,7 @@ namespace Blog.Tests.Services
     public class ArticleServiceTests
     {
         private IArticleService _service = null!;
+
         private BlogDbContext _db = null!;
         private IMapper _mapper = null!;
 
@@ -29,7 +30,7 @@ namespace Blog.Tests.Services
             });
 
             _mapper = config.CreateMapper();
-            _service = new ArticleService(_db, _mapper);
+            _service = new ArticleService(_db, null, _mapper);
         }
 
         [TestMethod]

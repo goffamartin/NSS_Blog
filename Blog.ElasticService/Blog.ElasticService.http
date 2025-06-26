@@ -1,6 +1,6 @@
 @Blog.ElasticService_HostAddress = http://localhost:5255
 
-GET {{Blog.ElasticService_HostAddress}}/weatherforecast/
+GET {{Blog.ElasticService_HostAddress}}/search/articles?query=technology
 Accept: application/json
 
 ###

@@ -1,4 +1,4 @@
-﻿namespace Blog.ApiService.Dtos
+﻿namespace Blog.Shared.Dtos
 {
     public class CommentDto
     {

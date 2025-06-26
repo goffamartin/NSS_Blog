@@ -1,21 +1,16 @@
 ﻿using AutoMapper;
 using Blog.ApiService.Data;
-using Blog.ApiService.Dtos;
+using Blog.Shared.Dtos;
 using Blog.ApiService.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.ApiService.Services;
 
-public class ArticleService : IArticleService
+public class ArticleService(
+    BlogDbContext _db,
+    IRabbitPublisher _publisher,
+    IMapper _mapper) : IArticleService
 {
-    private readonly BlogDbContext _db;
-    private readonly IMapper _mapper;
-
-    public ArticleService(BlogDbContext db, IMapper mapper)
-    {
-        _db = db;
-        _mapper = mapper;
-    }
 
     public async Task<IEnumerable<ArticleDto>> GetAllAsync()
     {
@@ -41,7 +36,12 @@ public class ArticleService : IArticleService
         article.Created = DateTime.UtcNow;
         _db.Articles.Add(article);
         await _db.SaveChangesAsync();
+
+        await _publisher.PublishArticleEventAsync("Created", _mapper.Map<ArticleSearchDto>(article));
+
         return _mapper.Map<ArticleDto>(article);
+
+
     }
 
     public async Task<bool> UpdateAsync(int id, ArticleDto dto)
@@ -55,6 +55,9 @@ public class ArticleService : IArticleService
         existing.CategoryId = dto.CategoryId;
 
         await _db.SaveChangesAsync();
+
+        await _publisher.PublishArticleEventAsync("Updated", _mapper.Map<ArticleSearchDto>(existing));
+
         return true;
     }
 
@@ -66,6 +69,9 @@ public class ArticleService : IArticleService
 
         article.Deleted = DateTime.UtcNow;
         await _db.SaveChangesAsync();
+
+        await _publisher.PublishArticleEventAsync("Deleted", _mapper.Map<ArticleSearchDto>(article));
+
         return true;
     }
 

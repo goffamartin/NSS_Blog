@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-Blog.ElasticWorker-0970143b-c42a-4da5-a173-e9682963faf2</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Microsoft.Data.SqlClient" Version="9.3.1" />
+    <PackageReference Include="Aspire.RabbitMQ.Client" Version="9.3.1" />
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Elastic.Clients.Elasticsearch" Version="9.0.7" />
+    <PackageReference Include="Elastic.Clients.Elasticsearch.Aspire" Version="9.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blog.ApiService\Blog.ApiService.csproj" />
+    <ProjectReference Include="..\Blog.ServiceDefaults\Blog.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
+  </ItemGroup>
+</Project>
