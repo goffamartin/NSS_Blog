@@ -79,7 +79,8 @@ app.MapPost("/seed", async (BlogDbContext db, IWebHostEnvironment env) =>
     if (!env.IsDevelopment())
         return Results.Forbid();
 
-    await SeedData.InitializeAsync(db);
+    await IdentitySeeder.InitializeAsync(app.Services);
+    await DataSeeder.InitializeAsync(db);
     return Results.Ok("Seeding complete");
 });
 
