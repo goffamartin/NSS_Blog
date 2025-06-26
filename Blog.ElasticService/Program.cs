@@ -17,6 +17,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapGet("/search/articles", async (string q, ElasticsearchClient es) =>
 {
+    Console.WriteLine("call of /search/articles");
     var response = await es.SearchAsync<ArticleSearchDto>(s => s
         .Index("articles")
         .Query(query => query
@@ -58,10 +59,31 @@ app.MapGet("/search/suggest", async (string prefix, ElasticsearchClient es) =>
         )
     );
 
+    if (!response.IsValidResponse || response.Documents is null)
+    {
+        return Results.Problem("Search failed or returned null.");
+    }
+
     return Results.Ok(response.Documents.Select(d => d.Title));
 })
 .WithName("Autocomplete")
 .WithTags("Search");
 
+app.MapGet("/search/articles/all", async (ElasticsearchClient es) =>
+{
+    var response = await es.SearchAsync<ArticleSearchDto>(s => s
+        .Index("articles")
+        .Size(1000) // Limit the number of results
+    );
+
+    if (!response.IsValidResponse || response.Documents is null)
+    {
+        return Results.Problem("Search failed or returned null.");
+    }
+
+    return Results.Ok(response.Documents);
+})
+.WithName("GetAllArticles")
+.WithTags("Search");
 
 app.Run();
