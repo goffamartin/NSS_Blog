@@ -13,29 +13,11 @@ namespace Blog.ApiService.Data
         public DbSet<Comment> Comments => Set<Comment>();
         public DbSet<Like> Likes => Set<Like>();
         public DbSet<User> Users => Set<User>();
-        public DbSet<UserRole> UserRoles => Set<UserRole>();
-        public DbSet<Role> Roles => Set<Role>();
         public DbSet<Tag> Tags => Set<Tag>();
         public DbSet<Category> Categories => Set<Category>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // User ↔ Role (many-to-many)
-            modelBuilder.Entity<UserRole>()
-                .HasKey(ur => new { ur.UserId, ur.RoleId });
-
-            modelBuilder.Entity<UserRole>()
-                .HasOne(ur => ur.User)
-                .WithMany(u => u.UserRoles)
-                .HasForeignKey(ur => ur.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<UserRole>()
-                .HasOne(ur => ur.Role)
-                .WithMany()
-                .HasForeignKey(ur => ur.RoleId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             // Article ↔ Tag (many-to-many)
             modelBuilder.Entity<Article>()
                 .HasMany(a => a.Tags)
