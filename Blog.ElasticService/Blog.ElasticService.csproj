@@ -9,6 +9,7 @@
 	<ItemGroup>
 		<PackageReference Include="Elastic.Clients.Elasticsearch.Aspire" Version="9.3.0" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.1" />
 		<PackageReference Include="NEST" Version="7.17.5" />
 	</ItemGroup>
 
