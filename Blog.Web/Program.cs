@@ -1,22 +1,36 @@
-using Blog.Web;
+using Blog.Web.ApiClients;
 using Blog.Web.Components;
+using Havit.Blazor.Components.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();
+
 builder.AddRedisOutputCache("cache");
+
+builder.Services.AddHxServices();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddHttpClient<WeatherApiClient>(client =>
-    {
-        // This URL uses "https+http://" to indicate HTTPS is preferred over HTTP.
-        // Learn more about service discovery scheme resolution at https://aka.ms/dotnet/sdschemes.
-        client.BaseAddress = new("https+http://apiservice");
-    });
+var apiServiceUri = new Uri("https+http://apiservice");
+
+builder.Services.AddHttpClient<ArticleApiClient>(client =>
+    client.BaseAddress = apiServiceUri);
+
+builder.Services.AddHttpClient<UserApiClient>(client =>
+    client.BaseAddress = apiServiceUri);
+
+builder.Services.AddHttpClient<LikeApiClient>(client =>
+    client.BaseAddress = apiServiceUri);
+
+builder.Services.AddHttpClient<CommentApiClient>(client =>
+    client.BaseAddress = apiServiceUri);
+
+builder.Services.AddHttpClient<ElasticSearchApiClient>(client =>
+    client.BaseAddress = new Uri("https://elasticservice"));
 
 var app = builder.Build();
 

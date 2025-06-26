@@ -28,7 +28,7 @@ var apiService = builder.AddProject<Projects.Blog_ApiService>("apiservice")
     .WithReference(database)
     .WaitFor(database);
 
-builder.AddProject<Projects.Blog_Web>("webfrontend")
+builder.AddProject<Projects.Blog_Web>("web")
     .WithExternalHttpEndpoints()
     .WithReference(elasticservice)
     .WithReference(apiService)
