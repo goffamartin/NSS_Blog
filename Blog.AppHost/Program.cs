@@ -29,8 +29,10 @@ var apiService = builder.AddProject<Projects.Blog_ApiService>("apiservice")
     .WithReference(rabbitmq)
     .WithReference(database)
     .WithReference(identityDb)
+    .WithReference(cache)
     .WaitFor(identityDb)
-    .WaitFor(database);
+    .WaitFor(database)
+    .WaitFor(cache);
 
 builder.AddProject<Projects.Blog_Web>("webfrontend")
     .WithExternalHttpEndpoints()
