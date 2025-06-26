@@ -66,6 +66,9 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 
+// Interceptor/Middleware for logging requests
+app.UseMiddleware<RequestLoggingMiddleware>();
+
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
