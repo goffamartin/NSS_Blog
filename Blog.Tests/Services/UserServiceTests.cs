@@ -32,21 +32,21 @@ namespace Blog.Tests.Services
         {
             var dto = new UserDto
             {
-                DisplayName = "Tester",
+                Username = "Tester",
                 Email = "tester@example.com"
             };
 
             var created = await _service.CreateAsync(dto);
 
-            Assert.AreEqual("Tester", created.DisplayName);
+            Assert.AreEqual("Tester", created.Username);
             Assert.AreEqual(false, created.Banned);
         }
 
         [TestMethod]
         public async Task GetAll_ReturnsUsers()
         {
-            await _service.CreateAsync(new UserDto { DisplayName = "A", Email = "a@x.com" });
-            await _service.CreateAsync(new UserDto { DisplayName = "B", Email = "b@x.com" });
+            await _service.CreateAsync(new UserDto { Username = "A", Email = "a@x.com" });
+            await _service.CreateAsync(new UserDto { Username = "B", Email = "b@x.com" });
 
             var result = await _service.GetAllAsync();
 
@@ -56,18 +56,18 @@ namespace Blog.Tests.Services
         [TestMethod]
         public async Task GetById_ReturnsCorrectUser()
         {
-            var created = await _service.CreateAsync(new UserDto { DisplayName = "X", Email = "x@x.com" });
+            var created = await _service.CreateAsync(new UserDto { Username = "X", Email = "x@x.com" });
 
             var result = await _service.GetByIdAsync(created.Id);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual("X", result?.DisplayName);
+            Assert.AreEqual("X", result?.Username);
         }
 
         [TestMethod]
         public async Task SoftDelete_BansUser()
         {
-            var user = await _service.CreateAsync(new UserDto { DisplayName = "BanMe", Email = "ban@me.com" });
+            var user = await _service.CreateAsync(new UserDto { Username = "BanMe", Email = "ban@me.com" });
 
             var deleted = await _service.SoftDeleteAsync(user.Id);
             var all = await _service.GetAllAsync();

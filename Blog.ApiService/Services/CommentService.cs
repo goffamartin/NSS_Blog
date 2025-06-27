@@ -8,6 +8,14 @@ namespace Blog.ApiService.Services
 {
     public class CommentService(BlogDbContext _db, IMapper _mapper) : ICommentService
     {
+        public async Task<CommentDto?> GetByIdAsync(int id)
+        {
+            var comments = await _db.Comments.FindAsync(id);
+            return comments is null || comments.Deleted != null
+                ? null
+                : _mapper.Map<CommentDto>(comments);
+        }
+
         public async Task<IEnumerable<CommentDto>> GetByArticleIdAsync(int articleId)
         {
             var comments = await _db.Comments
@@ -36,6 +44,20 @@ namespace Blog.ApiService.Services
             comment.Deleted = DateTime.UtcNow;
             await _db.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<CommentDto> UpdateAsync(CommentDto dto)
+        {
+            var existing = await _db.Comments.FindAsync(dto.Id);
+            if (existing == null || existing.Deleted != null)
+            {
+                throw new KeyNotFoundException($"Comment with ID {dto.Id} not found or already deleted.");
+            }
+            existing.Content = dto.Content;
+            existing.Created = DateTime.UtcNow;
+            _db.Comments.Update(existing);
+            await _db.SaveChangesAsync(); // Blocking call, consider using async all the way up
+            return _mapper.Map<CommentDto>(existing);
         }
     }
 

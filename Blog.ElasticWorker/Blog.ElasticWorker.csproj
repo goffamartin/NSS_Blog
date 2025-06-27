@@ -4,7 +4,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dotnet-Blog.ElasticWorker-0970143b-c42a-4da5-a173-e9682963faf2</UserSecretsId>
+	  <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+	  <UserSecretsId>dotnet-Blog.ElasticWorker-0970143b-c42a-4da5-a173-e9682963faf2</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
