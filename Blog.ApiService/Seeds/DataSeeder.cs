@@ -7,7 +7,7 @@ namespace Blog.ApiService.Seeds
     {
         public static async Task InitializeAsync(BlogDbContext db)
         {
-            //if (db.Users.Any()) return;
+            if (db.Users.Any()) return;
 
             var now = DateTime.UtcNow;
 
