@@ -1,0 +1,87 @@
+﻿@page "/"  
+
+@using Blog.Shared.Dtos  
+@using Blog.Web.ApiClients  
+@using Havit.Blazor.Components.Web.Bootstrap  
+@using System.Globalization  
+
+@inject ElasticSearchApiClient SearchClient  
+@inject ArticleApiClient ArticleApiClient  
+@inject CommentApiClient CommentClient  
+@inject LikeApiClient LikeClient  
+
+<PageTitle>Articles</PageTitle>  
+
+@if (articles == null)  
+{  
+    <HxSpinner Color="ThemeColor.Primary" />  
+}  
+else  
+{  
+    @foreach (var article in articles)  
+    {  
+        <HxCard style="width: 18rem;">  
+            <BodyTemplate>  
+                <HxCardTitle>@article.Title</HxCardTitle>  
+                <HxCardSubtitle CssClass="mb-2 text-muted">@article.AuthorId</HxCardSubtitle>  
+                <HxCardText>@article.Content</HxCardText>  
+                <HxButton OnClick="@(() => ToggleLike(article.Id))" Color="ThemeColor.Primary">Like</HxButton>  
+            </BodyTemplate>  
+        </HxCard>  
+    }  
+}  
+
+@code {  
+    List<ArticleDto>? articles;  
+    Dictionary<int, List<CommentDto>> commentsByArticle = [];
+    Dictionary<int, string> newComments = [];  
+    Dictionary<int, int> likeCounts = [];  
+
+    protected override async Task OnInitializedAsync()  
+    {  
+        articles = (await ArticleApiClient.GetAllAsync()).ToList();  
+
+        foreach (var article in articles)  
+        {  
+            var comments = await CommentClient.GetByArticleAsync(article.Id);  
+            commentsByArticle[article.Id] = comments;  
+
+            var likeCount = await LikeClient.GetLikeCountAsync(article.Id);  
+            likeCounts[article.Id] = likeCount;  
+
+            newComments[article.Id] = string.Empty;  
+        }  
+    }  
+
+    private async Task AddComment(int articleId)  
+    {  
+        var content = newComments[articleId]?.Trim();  
+        if (string.IsNullOrWhiteSpace(content)) return;  
+
+        var dto = new CommentDto  
+        {  
+            ArticleId = articleId,  
+            Content = content  
+        };  
+
+        await CommentClient.AddCommentAsync(dto);  
+
+        var updated = await CommentClient.GetByArticleAsync(articleId);  
+        commentsByArticle[articleId] = updated;  
+        newComments[articleId] = string.Empty;  
+    }  
+
+    private async Task ToggleLike(int articleId)  
+    {  
+        var dto = new LikeDto { ArticleId = articleId, UserId = 1 }; // replace with actual user logic  
+        var liked = await LikeClient.ToggleLikeAsync(dto);  
+
+        var count = await LikeClient.GetLikeCountAsync(articleId);  
+        likeCounts[articleId] = count;  
+    }  
+
+    private int GetLikeCount(int articleId)  
+    {  
+        return likeCounts.TryGetValue(articleId, out var count) ? count : 0;  
+    }  
+}

@@ -8,8 +8,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.ServiceDefaults", "Blo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.ApiService", "Blog.ApiService\Blog.ApiService.csproj", "{853F69A3-9D19-4D85-86D6-4D2CE8CE3C0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Web", "Blog.Web\Blog.Web.csproj", "{4B0712E8-CC44-915B-0354-940D56D0C0A9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Tests", "Blog.Tests\Blog.Tests.csproj", "{B848571A-1C4C-5FAC-C65F-5CCCA2C7AD1C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.ElasticService", "Blog.ElasticService\Blog.ElasticService.csproj", "{3ADD925A-D295-F5F4-3E59-D5373A54274F}"
@@ -17,6 +15,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.ElasticWorker", "Blog.ElasticWorker\Blog.ElasticWorker.csproj", "{18E1C29C-F3E0-010B-CD9C-AB878E82B69F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{8D80A219-1F84-4DE9-B1BF-EF036EE92440}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aspire", "Aspire", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elastic", "Elastic", "{41F24BD7-0B9E-4F55-BBF7-CA19D7915BDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Web", "Blog.Web\Blog.Web.csproj", "{4B0712E8-CC44-915B-0354-940D56D0C0A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,10 +40,6 @@ Global
 		{853F69A3-9D19-4D85-86D6-4D2CE8CE3C0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{853F69A3-9D19-4D85-86D6-4D2CE8CE3C0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{853F69A3-9D19-4D85-86D6-4D2CE8CE3C0B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B0712E8-CC44-915B-0354-940D56D0C0A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B0712E8-CC44-915B-0354-940D56D0C0A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B0712E8-CC44-915B-0354-940D56D0C0A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B0712E8-CC44-915B-0354-940D56D0C0A9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B848571A-1C4C-5FAC-C65F-5CCCA2C7AD1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B848571A-1C4C-5FAC-C65F-5CCCA2C7AD1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B848571A-1C4C-5FAC-C65F-5CCCA2C7AD1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -56,9 +56,19 @@ Global
 		{8D80A219-1F84-4DE9-B1BF-EF036EE92440}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D80A219-1F84-4DE9-B1BF-EF036EE92440}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D80A219-1F84-4DE9-B1BF-EF036EE92440}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B0712E8-CC44-915B-0354-940D56D0C0A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B0712E8-CC44-915B-0354-940D56D0C0A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B0712E8-CC44-915B-0354-940D56D0C0A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B0712E8-CC44-915B-0354-940D56D0C0A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{893C7BAA-77CA-49EE-BA04-60839A4EA2AE} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{D26A7850-E039-CC2B-273E-865B5BEDF2B4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{3ADD925A-D295-F5F4-3E59-D5373A54274F} = {41F24BD7-0B9E-4F55-BBF7-CA19D7915BDB}
+		{18E1C29C-F3E0-010B-CD9C-AB878E82B69F} = {41F24BD7-0B9E-4F55-BBF7-CA19D7915BDB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD8CF94A-D106-4505-AA29-3B4E8F71D7E5}
