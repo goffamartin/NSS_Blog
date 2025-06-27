@@ -90,7 +90,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapPost("/seed", async (BlogDbContext db, IWebHostEnvironment env) =>
 {
-    if (!env.IsDevelopment())
+    if (!app.Environment.IsDevelopment())
         return Results.Forbid();
 
     await IdentitySeeder.InitializeAsync(app.Services);
